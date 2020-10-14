@@ -47,35 +47,36 @@ _(These steps have only been tested in Ubuntu >=18.04)_
 
 ## Customize the example Docker container
 ------------------------------------------
-The Squid configuration can be modified without rebuilding the container. To
-create your own config, copy the file and edit it with your favorite text
-editor.
+The Squid configuration can be modified without rebuilding the container.
+
+1. To create your own config, copy the file and edit it with your favorite text
+   editor.
 ```
 	$ cp squid.conf custom.conf
 	$ vim custom.conf
 ```
 
-Once your changes are complete you can start a new container.
+2. Once your changes are complete you can start a new container.
 
-__WARNING:__ The whole directory the custom configuration file is in will be
-mounted and available in the docker container. It is recommended to place the
-configuration file in its own directory.
+   __WARNING:__ The whole directory the custom configuration file is in will be
+   mounted and available in the docker container. It is recommended to place the
+   configuration file in its own directory.
 ```
 	$ ./start_docker_squid.sh -f custom.conf`
 ```
 
-If you changed the `http_port` in your custom config file you must specify it
+- If you changed the `http_port` in your custom config file you must specify it
 when running the start script.
 ```
 	$ ./start_docker_squid.sh -p 8000 -f custom.conf`
 ```
 
-Multiple ports can be specified with multiple `-p flags`
+- Multiple ports can be specified with multiple `-p flags`
 ```
 	./start_docker_squid -p 8000 -p 8080 -p 443 -f custom.conf`
 ```
 
-Use the `-r` flag to automatically remove the container when it stops, this can
+- Use the `-r` flag to automatically remove the container when it stops, this can
 speed up the debugging process
 ```
 	$ ./start_docker_squid.sh -p 3128 -f custom.conf -r`

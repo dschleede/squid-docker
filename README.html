@@ -44,27 +44,39 @@ port is 3128.</li>
 </ol>
 <h2>Customize the example Docker container</h2>
 <hr />
-<p>The Squid configuration can be modified without rebuilding the container. To
-create your own config, copy the file and edit it with your favorite text
-editor.</p>
+<p>The Squid configuration can be modified without rebuilding the container.</p>
+<ol>
+<li>To create your own config, copy the file and edit it with your favorite text
+editor.</li>
+</ol>
 <pre><code>	$ cp squid.conf custom.conf
 	$ vim custom.conf
 </code></pre>
+<ol start="2">
+<li>
 <p>Once your changes are complete you can start a new container.</p>
 <p><strong>WARNING:</strong> The whole directory the custom configuration file is in will be
 mounted and available in the docker container. It is recommended to place the
 configuration file in its own directory.</p>
+</li>
+</ol>
 <pre><code>	$ ./start_docker_squid.sh -f custom.conf`
 </code></pre>
-<p>If you changed the <code>http_port</code> in your custom config file you must specify it
-when running the start script.</p>
+<ul>
+<li>If you changed the <code>http_port</code> in your custom config file you must specify it
+when running the start script.</li>
+</ul>
 <pre><code>	$ ./start_docker_squid.sh -p 8000 -f custom.conf`
 </code></pre>
-<p>Multiple ports can be specified with multiple <code>-p flags</code></p>
+<ul>
+<li>Multiple ports can be specified with multiple <code>-p flags</code></li>
+</ul>
 <pre><code>	./start_docker_squid -p 8000 -p 8080 -p 443 -f custom.conf`
 </code></pre>
-<p>Use the <code>-r</code> flag to automatically remove the container when it stops, this can
-speed up the debugging process</p>
+<ul>
+<li>Use the <code>-r</code> flag to automatically remove the container when it stops, this can
+speed up the debugging process</li>
+</ul>
 <pre><code>	$ ./start_docker_squid.sh -p 3128 -f custom.conf -r`
 </code></pre>
 <h2>Connect to Digi Remote Manager using only Port 443</h2>
