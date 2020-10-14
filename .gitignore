@@ -1,0 +1,6 @@
+# vim swap files
+.*.swp
+
+# all tarballs
+*.tar
+*.tar.gz

@@ -1,0 +1,87 @@
+<h1>Digi Remote Manager Web Proxy</h1>
+<p>This repository provides an example of how to setup a Squid Web Proxy to proxy
+traffic from Digi devices to Digi Remote Manager.</p>
+<p>Also provided is a Docker container that will help get you started quickly.</p>
+<p>Digi recommends reviewing, understanding, and testisg your entire squid
+configuration file before deploying it for use by devices in the field.</p>
+<h2>Run the example Docker container</h2>
+<hr />
+<p>Running the example container can be done with the following steps.
+<em>(These steps have only been tested in Ubuntu &gt;=18.04)</em></p>
+<ol>
+<li>
+<p>Confirm Docker is installed
+See <a href="https://docs.docker.com/engine/install/">https://docs.docker.com/engine/install/</a> for instructions on how to
+install</p>
+</li>
+<li>
+<p>Clone this repo</p>
+</li>
+</ol>
+<pre><code>	$ git clone &lt;my_link&gt; &amp;&amp; cd &lt;repo&gt;
+</code></pre>
+<ol start="3">
+<li>Build the container</li>
+</ol>
+<pre><code>	$ docker build -t rm-squid-proxy:0.7 .
+</code></pre>
+<ol start="4">
+<li>Start the container using the helper script.
+This will start the docker container using the squid.conf file located in
+this repository.</li>
+</ol>
+<pre><code>	$ ./start_docker_squid.sh`
+</code></pre>
+<ol start="5">
+<li>Test your proxy</li>
+</ol>
+<pre><code>	$ curl -x localhost:3128 https://www.google.com
+</code></pre>
+<ol start="6">
+<li>Configure your device to connect to Digi Remote Manager through your new
+proxy server. The address of the proxy is your computer's address, and the
+port is 3128.</li>
+</ol>
+<h2>Customize the example Docker container</h2>
+<hr />
+<p>The Squid configuration can be modified without rebuilding the container. To
+create your own config, copy the file and edit it with your favorite text
+editor.</p>
+<pre><code>	$ cp squid.conf custom.conf
+	$ vim custom.conf
+</code></pre>
+<p>Once your changes are complete you can start a new container.</p>
+<p><strong>WARNING:</strong> The whole directory the custom configuration file is in will be
+mounted and available in the docker container. It is recommended to place the
+configuration file in its own directory.</p>
+<pre><code>	$ ./start_docker_squid.sh -f custom.conf`
+</code></pre>
+<p>If you changed the <code>http_port</code> in your custom config file you must specify it
+when running the start script.</p>
+<pre><code>	$ ./start_docker_squid.sh -p 8000 -f custom.conf`
+</code></pre>
+<p>Multiple ports can be specified with multiple <code>-p flags</code></p>
+<pre><code>	./start_docker_squid -p 8000 -p 8080 -p 443 -f custom.conf`
+</code></pre>
+<p>Use the <code>-r</code> flag to automatically remove the container when it stops, this can
+speed up the debugging process</p>
+<pre><code>	$ ./start_docker_squid.sh -p 3128 -f custom.conf -r`
+</code></pre>
+<h2>Connect to Digi Remote Manager using only Port 443</h2>
+<hr />
+<ol>
+<li>Start the container using using the <em>443.conf</em> file. This file may need to be
+modified to work with your devices.</li>
+</ol>
+<pre><code>	$ ./start_docker_squid.sh -p 443 -f 443.conf
+</code></pre>
+<ol start="2">
+<li>Configure your device to connect to <code>2my.devicecloud.com:443</code> through the
+proxy. See your device's user guide for how to do this.</li>
+</ol>
+<h2>License</h2>
+<hr />
+<p>This software is open-source. Copyright (c), Digi International Inc., 2020.</p>
+<p>This Source Code Form is subject to the terms of the Mozilla Public License, v.
+2.0. If a copy of the MPL was not distributed with this file, you can obtain one
+at <a href="http://mozilla.org/MPL/2.0/">http://mozilla.org/MPL/2.0/</a>.</p>
